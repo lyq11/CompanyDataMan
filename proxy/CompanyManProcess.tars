@@ -1,0 +1,75 @@
+module CivetCompanyCenter
+{
+	struct Company{
+		0 require int id;
+		1 optional string name;
+		2 optional string address;
+		3 optional string contact;
+		4 optional string email;
+		5 optional int roleID;
+	};
+	struct CompanyHasRole{
+		0 optional int id;
+		1 optional int Company_id;
+		2 optional int Role_id;
+		3 optional int create_time;
+		4 optional int update_time;
+		5 optional string uni_id;
+	};
+	struct Role{
+		0 optional int id;
+		1 optional string roleName;
+		2 optional string summarize;
+		3 optional int createTime;
+		4 optional int updateTime;
+	};
+	struct RoleHasPermission{
+		0 optional int id;
+		1 optional int role_id;
+		2 optional int Permission_id;
+		3 optional int create_time;
+		4 optional int update_time;
+		5 optional string uni_id;
+	};
+	struct CPermission{
+		0 optional int id;
+		1 optional string tag;
+		2 optional string name;
+		3 optional string summarize;
+	};
+
+	interface CompanyManProcess
+	{
+		int createCompany(Company newCompany,out int result);
+		int deleteCompany(int CompanyID,out int result);
+		int updateCompany(Company Company,string keys,string value,out int result);
+		int queryCompany(int offset,int limit,out vector<Company> Companys,out int count,out int result);
+		int queryCompanyByCondition(int offset,int limit,string keys,string value,out vector<Company> Companys,out int count,out int result);
+
+		int bindCompanyAndRole(CompanyHasRole newCompanyHasRole,out int result);
+		int unBindCompanyAndRole(int CompanyHasRoleID,out int result);
+		int queryCompanyRole(int offset,int limit,out vector<CompanyHasRole> Companys,out int count,out int result);
+		int queryCompanyRoleByCondition(int offset,int limit,string keys,string value,out vector<CompanyHasRole> binds,out int count,out int result);
+
+		int createRole(Role newRole,out int c);
+		int deleteRole(int roleID,out int result);
+		int updateRole(Role role,string keys,string value,out int result);
+		int queryRole(int offset,int limit,out vector<Role> role,out int count,out int result);
+		int queryRoleByCondition(int offset,int limit,string keys,string value,out vector<Role> role,out int count,out int result);
+
+		int bindRoleAndPermissions(RoleHasPermission newRoleHasPermission,out int result);
+		int unBindRoleAndPermissions(int RoleID,out int result);
+		int queryRolePermissions(int offset,int limit,out vector<RoleHasPermission> Companys,out int count,out int result);
+		int queryRolePermissionsByCondition(int offset,int limit,string keys,string value,out vector<RoleHasPermission> binds,out int count,out int result);
+
+		int createPermissions(CPermission newCPermission,out int c);
+		int deletePermissions(int PermissionsID,out int result);
+		int updatePermissions(CPermission PermissionsID,string keys,string value,out int result);
+		int queryPermissions(int offset,int limit,out vector<CPermission> Permissions,out int count,out int result);
+		int queryPermissionsByCondition(int offset,int limit,string keys,string value,out vector<CPermission> Permissionsout ,out int count,out int result);
+
+		int checkCompanyHasPermissionsByID(int CompanyID,int PermissionID,out int result);
+		int checkCompanyHasPermissionsByTag(int CompanyID,string PermissionsTag,out int result);
+		int queryCompanyPermissions(int CompanyID,out vector<CPermission> Permissions,out int result);
+	};
+};
